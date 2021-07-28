@@ -52,16 +52,17 @@ const numReg = lProductos.length;
 
 
 //Obtiene las cant. de visitas de las apis: items y item-random
-const visItems = 0
-const vistItemRandom = 0;
+let visItems = 0
+let vistItemRandom = 0;
 
 
 // responde un objeto con todos los productos y su cantidad total en el 
 // siguiente formato: { items: [productos], cantidad: (cantidad productos) }
 app.get('/api/items', (req, res) => {
     // variable de registro de visitas
-    visItems = visItems++;
+    visItems = visItems + 1;
 
+	console.log(visItems);
     res.json({
         items : lProductos,
         cantidad: numReg
@@ -74,8 +75,8 @@ app.get('/api/items', (req, res) => {
  */
 app.get('/api/item-random', (req, res) => {
     // variable de registro de visitas
-    vistItemRandom = vistItemRandom++;
-
+    vistItemRandom = vistItemRandom + 1;
+	console.log(vistItemRandom);
     // Obtiene n° ramdom
     const numRamdon = Math.floor(Math.random() * (parseInt(numReg) - 1) + 1);  
     const rProd = lProductos[numRamdon];
@@ -89,5 +90,14 @@ app.get('/api/item-random', (req, res) => {
  *  { visitas : { items: cantidad, item: cantidad } }
  */
 app.get('/api/visitas', (req, res) => {
-    // req.query.price => productos?price=100&nombre=Escuadra
+	const obj = {
+		items: visItems,
+		item: vistItemRandom
+	}
+
+	res.json({
+        visitas : {
+			obj
+		}
+    })
 })
